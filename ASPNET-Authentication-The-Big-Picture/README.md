@@ -18,3 +18,9 @@
 * Federation with OpenID Connect and SAML
 * Windows Authentication
 * Biometics
+# Browser-based Application
+* OpenID Connect & OAuth using oidc-client-js
+* Same-site Cookies for API Access
+* Backend for Frontend, ProxyKit
+  * https://leastprivilege.com/2019/01/18/an-alternative-way-to-secure-spas-with-asp-net-core-openid-connect-oauth-2-0-and-proxykit/
+# Native Application
