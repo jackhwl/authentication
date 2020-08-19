@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\ASPNET-Authentication-The-Big-Picture",
+    "\\Identity",
+    "\\Identity\\Identity",
+    "\\OWIN",
+    "\\OWIN\\OWIN",
+    "\\OWIN\\OWIN\\App_Start"
   ],
-  "SelectedNode": "\\Identity",
+  "SelectedNode": "\\OWIN\\OWIN\\App_Start\\Startup.cs",
   "PreviewInSolutionExplorer": false
 }
