@@ -22,6 +22,12 @@ namespace OwinDemo.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(RegisterModel model)
         {
+            var identityUser = await UserManager.FindByNameAsync(model.Username);
+            if (identityUser != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             var identityResult = await UserManager.CreateAsync(new IdentityUser(model.Username), model.Password);
 
             if (identityResult.Succeeded)
