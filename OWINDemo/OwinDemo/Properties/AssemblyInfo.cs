@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OWIN")]
+[assembly: AssemblyTitle("OwinDemo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OWIN")]
+[assembly: AssemblyProduct("OwinDemo")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("aac4d69e-7e92-48b8-b2ad-e1f9a67cd718")]
+[assembly: Guid("6c3961b1-8a5d-434e-b434-020331e5fc73")]
 
 // Version information for an assembly consists of the following four values:
 //
