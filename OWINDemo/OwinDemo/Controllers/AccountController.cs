@@ -13,6 +13,27 @@ namespace OwinDemo.Controllers
     public class AccountController : Controller
     {
         public UserManager<IdentityUser> UserManager => HttpContext.GetOwinContext().Get<UserManager<IdentityUser>>();
+        public SignInManager<IdentityUser, string> SignInManager => HttpContext.GetOwinContext().Get<SignInManager<IdentityUser, string>>();
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginModel model) 
+        { 
+            var signInStatus = await SignInManager.PasswordSignInAsync(model.Username, model.Password, true, true);
+
+            switch (signInStatus)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Index", "Home");
+                default:
+                    ModelState.AddModelError("", "invalid Credentials");
+                    return View(model);
+            }
+        }
 
         public ActionResult Register()
         {
@@ -41,9 +62,16 @@ namespace OwinDemo.Controllers
         }
     }
 
+    public class LoginModel
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+
     public class RegisterModel
     {
         public string Username { get; set; }
         public string Password { get; set; }
     }
+
 }
