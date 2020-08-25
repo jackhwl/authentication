@@ -20,14 +20,24 @@ namespace OwinDemo
             const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;Database=module3;trusted_connection=yes;";
             app.CreatePerOwinContext(() => new ExtendedUserDbContext(connectionString));
             app.CreatePerOwinContext<UserStore<ExtendedUser>>((opt, cont) => new UserStore<ExtendedUser> (cont.Get<ExtendedUserDbContext>()));
-            app.CreatePerOwinContext<UserManager<ExtendedUser>>((opt, cont) => new UserManager<ExtendedUser>(cont.Get<UserStore<ExtendedUser>>()));
+            app.CreatePerOwinContext<UserManager<IdentityUser>>(
+               (opt, cont) =>
+                    //new UserManager<ExtendedUser>(cont.Get<UserStore<ExtendedUser>>()));
+                    {
+                        var usermanager = new UserManager<IdentityUser>(cont.Get<UserStore<IdentityUser>>());
+                        usermanager.RegisterTwoFactorProvider("SMS", new PhoneNumberTokenProvider<IdentityUser>{ MessageFormat = "Token: {0}" });
+                        usermanager.SmsService = new SmsService();
+                        return usermanager;
+                    });
             app.CreatePerOwinContext<SignInManager<ExtendedUser, string>>(
-                (opt, cont) => new SignInManager<ExtendedUser, string>(cont.Get<UserManager<ExtendedUser>>(), cont.Authentication));
+                (opt, cont) => new SignInManager<ExtendedUser, string>(cont.Get<UserManager<ExtendedUser>>(), cont.Authentication));                
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie
             });
+
+            app.UseTwoFactorSignInCookie(DefaultAuthenticationTypes.TwoFactorCookie, TimeSpan.FromMinutes(5));
         }
     }
 }

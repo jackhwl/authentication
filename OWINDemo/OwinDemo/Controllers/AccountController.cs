@@ -29,8 +29,43 @@ namespace OwinDemo.Controllers
             {
                 case SignInStatus.Success:
                     return RedirectToAction("Index", "Home");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("ChooseProvider");
                 default:
                     ModelState.AddModelError("", "invalid Credentials");
+                    return View(model);
+            }
+        }
+        public async Task<ActionResult> ChooseProvider()
+        {
+            var userId = await SignInManager.GetVerifiedUserIdAsync();
+            var providers = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+
+            return View(new ChooseProviderModel { Providers = providers.ToList()});
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChooseProvider(ChooseProviderModel model)
+        {
+            await SignInManager.SendTwoFactorCodeAsync(model.ChosenProvider);
+            return RedirectToAction("TwoFactor", new {provider = model.ChosenProvider });
+        }
+
+        public ActionResult TwoFactor(string provider)
+        {
+            return View(new TwoFactorModel { Provider = provider });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> TwoFactor(TwoFactorModel model)
+        {
+            var signInStatus = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, true, false);
+            switch (signInStatus)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Index", "Home");
+                default:
+                    ModelState.AddModelError("", "Invalid Credentials");
                     return View(model);
             }
         }
@@ -67,6 +102,16 @@ namespace OwinDemo.Controllers
         }
     }
 
+    public class TwoFactorModel
+    {
+        public string Provider { get; set; }
+        public string Code { get; set; }
+    }
+    public class ChooseProviderModel
+    {
+        public List<string> Providers { get; set; }
+        public string ChosenProvider { get; set; }
+    }
     public class LoginModel
     {
         public string Username { get; set; }
