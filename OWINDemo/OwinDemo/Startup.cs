@@ -27,6 +27,7 @@ namespace OwinDemo
                         var usermanager = new UserManager<IdentityUser>(cont.Get<UserStore<IdentityUser>>());
                         usermanager.RegisterTwoFactorProvider("SMS", new PhoneNumberTokenProvider<IdentityUser>{ MessageFormat = "Token: {0}" });
                         usermanager.SmsService = new SmsService();
+                        usermanager.UserTokenProvider = new DataProtectorTokenProvider<IdentityUser>(opt.DataProtectionProvider.Create());
                         return usermanager;
                     });
             app.CreatePerOwinContext<SignInManager<ExtendedUser, string>>(

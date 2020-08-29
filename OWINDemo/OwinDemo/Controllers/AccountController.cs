@@ -12,8 +12,8 @@ namespace OwinDemo.Controllers
 {
     public class AccountController : Controller
     {
-        public UserManager<ExtendedUser> UserManager => HttpContext.GetOwinContext().Get<UserManager<ExtendedUser>>();
-        public SignInManager<ExtendedUser, string> SignInManager => HttpContext.GetOwinContext().Get<SignInManager<ExtendedUser, string>>();
+        public UserManager<IdentityUser> UserManager => HttpContext.GetOwinContext().Get<UserManager<IdentityUser>>();
+        public SignInManager<IdentityUser, string> SignInManager => HttpContext.GetOwinContext().Get<SignInManager<IdentityUser, string>>();
 
         public ActionResult Login()
         {
@@ -83,22 +83,38 @@ namespace OwinDemo.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            var user = new ExtendedUser
-            {
-                UserName = model.Username,
-                FullName = model.FullName
-            };
-            user.Addresses.Add(new Address { AddressLine = model.AddressLine, Country = model.Country, UserId = user.Id});
+            //var user = new ExtendedUser
+            //{
+            //    UserName = model.Username,
+            //    FullName = model.FullName
+            //};
+            //user.Addresses.Add(new Address { AddressLine = model.AddressLine, Country = model.Country, UserId = user.Id});
+            var user = new IdentityUser(model.Username) { Email = model.Username};
             var identityResult = await UserManager.CreateAsync(user, model.Password);
 
             if (identityResult.Succeeded)
             {
+                var token = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var confirmUrl = Url.Action("ConfirEmail", "Account", new { userid = user.Id, token = token }, Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Email Confirmation", $"Use link to confirm email: {confirmUrl}");
+
                 return RedirectToAction("Index", "Home");
             }
 
             ModelState.AddModelError("", identityResult.Errors.FirstOrDefault());
 
             return View(model);
+        }
+
+        public async Task<ActionResult> ConfirmEmail(string userid, string token)
+        {
+            var identityResult = await UserManager.ConfirmEmailAsync(userid, token);
+            if (!identityResult.Succeeded)
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 
