@@ -225,6 +225,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\ChooseProvider.cshtml" />
     <Content Include="Views\Account\TwoFactor.cshtml" />
+    <Content Include="Views\Account\PasswordReset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
