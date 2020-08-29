@@ -1,0 +1,16 @@
+﻿@model OwinDemo.Controllers.TwoFactorModel
+@{
+    ViewBag.Title = "TwoFactor";
+}
+
+<h1>TwoFactor</h1>
+<hr />
+@using (Html.BeginForm("TwoFactor", "Account", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.Provider)
+    <p>Code: @Html.TextBoxFor(x => x.Code)</p>
+    @Html.CheckBoxFor(x => x.RememberBrowser)
+    <input class="btn" value="Submit" type="submit" />
+
+}
+

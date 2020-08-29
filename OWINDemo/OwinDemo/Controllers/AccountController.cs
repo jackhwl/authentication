@@ -59,14 +59,14 @@ namespace OwinDemo.Controllers
         [HttpPost]
         public async Task<ActionResult> TwoFactor(TwoFactorModel model)
         {
-            var signInStatus = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, true, false);
+            var signInStatus = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, true, model.RememberBrowser);
             switch (signInStatus)
             {
                 case SignInStatus.Success:
                     return RedirectToAction("Index", "Home");
                 default:
                     ModelState.AddModelError("", "Invalid Credentials");
-                    return View(model);
+                    return View(model);   
             }
         }
 
@@ -106,6 +106,7 @@ namespace OwinDemo.Controllers
     {
         public string Provider { get; set; }
         public string Code { get; set; }
+        public bool RememberBrowser { get; set; }
     }
     public class ChooseProviderModel
     {
