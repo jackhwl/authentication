@@ -30,6 +30,16 @@ namespace OwinDemo
                         usermanager.RegisterTwoFactorProvider("SMS", new PhoneNumberTokenProvider<IdentityUser>{ MessageFormat = "Token: {0}" });
                         usermanager.SmsService = new SmsService();
                         usermanager.UserTokenProvider = new DataProtectorTokenProvider<IdentityUser>(opt.DataProtectionProvider.Create());
+                        
+                        usermanager.UserValidator = new UserValidator<IdentityUser>(usermanager) { RequireUniqueEmail = true };
+                        usermanager.PasswordValidator = new PasswordValidator
+                        {
+                            RequireDigit = true,
+                            RequireLowercase = true,
+                            RequireNonLetterOrDigit = true,
+                            RequireUppercase = true,
+                            RequiredLength = 8
+                        };
                         return usermanager;
                     });
             app.CreatePerOwinContext<SignInManager<ExtendedUser, string>>(
