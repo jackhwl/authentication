@@ -40,6 +40,11 @@ namespace OwinDemo
                             RequireUppercase = true,
                             RequiredLength = 8
                         };
+
+                        usermanager.UserLockoutEnabledByDefault = true;
+                        usermanager.MaxFailedAccessAttemptsBeforeLockout = 2;
+                        usermanager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(3);
+
                         return usermanager;
                     });
             app.CreatePerOwinContext<SignInManager<ExtendedUser, string>>(
