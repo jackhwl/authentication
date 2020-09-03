@@ -13,9 +13,13 @@ namespace OwinDemo.Controllers
 {
     public class AccountController : Controller
     {
-        public UserManager<IdentityUser> UserManager => HttpContext.GetOwinContext().Get<UserManager<IdentityUser>>();
-        public SignInManager<IdentityUser, string> SignInManager => HttpContext.GetOwinContext().Get<SignInManager<IdentityUser, string>>();
-
+        public UserManager<IdentityUser, string> UserManager; // => HttpContext.GetOwinContext().Get<UserManager<IdentityUser>>();
+        public SignInManager<IdentityUser, string> SignInManager; // => HttpContext.GetOwinContext().Get<SignInManager<IdentityUser, string>>();
+        public AccountController(UserManager<IdentityUser, string> userManager, SignInManager<IdentityUser, string> signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager; 
+        }
         public ActionResult ExternalAuthentication(string provider)
         {
             SignInManager.AuthenticationManager.Challenge(
