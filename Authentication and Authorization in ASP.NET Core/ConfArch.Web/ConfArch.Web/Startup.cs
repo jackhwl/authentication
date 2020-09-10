@@ -28,6 +28,9 @@ namespace ConfArch.Web
             services.AddDbContext<ConfArchDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     assembly => assembly.MigrationsAssembly(typeof(ConfArchDbContext).Assembly.FullName)));
+
+            services.AddAuthentication()
+                .AddCookie();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
