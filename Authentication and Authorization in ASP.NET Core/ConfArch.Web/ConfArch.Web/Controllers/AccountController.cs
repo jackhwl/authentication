@@ -26,7 +26,7 @@ namespace ConfArch.Web.Controllers
         {
             return View(new LoginModel { ReturnUrl = returnUrl });
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
