@@ -35,11 +35,13 @@ namespace ConfArch.Web
 
             services.AddAuthentication(o => { 
                 o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                //o.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
                 })
                 .AddCookie()
+                .AddCookie(ExternalAuthenticationDefaults.AuthenticationScheme)
                 .AddGoogle( o => 
                 {
+                    o.SignInScheme = ExternalAuthenticationDefaults.AuthenticationScheme;
                     o.ClientId = Configuration["Google:ClientId"];
                     o.ClientSecret = Configuration["Google:ClientSecret"];
                 });

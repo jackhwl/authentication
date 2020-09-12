@@ -10,7 +10,7 @@ namespace ConfArch.Data.Repositories
         private List<User> users = new List<User>
         {
             new User { Id = 3522, Name = "wenlin", Password = "eCnf5n/PVDEYZPw5qZ3RHtARWcWjx06NcCJlpoEoeK8=",
-                FavoriteColor = "blue", Role = "Admin", GoogleId = "101517359495305583936" }
+                FavoriteColor = "blue", Role = "Admin", GoogleId = "106822249011017344841" }
         };
 
         public User GetByUsernameAndPassword(string username, string password)
