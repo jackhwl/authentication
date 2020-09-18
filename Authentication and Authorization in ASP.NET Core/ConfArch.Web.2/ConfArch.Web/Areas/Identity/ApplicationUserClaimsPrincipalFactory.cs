@@ -21,7 +21,7 @@ namespace ConfArch.Web.Areas.Identity
             var identity = await base.GenerateClaimsAsync(user);
 
             identity.AddClaim(new Claim("CareerStarted", user.CareerStartedDate.ToShortDateString()));
-            identity.AddClaim(new Claim("FullName", user.CareerStartedDate.ToShortDateString()));
+            identity.AddClaim(new Claim("FullName", user.FullName));
 
             return identity;
         }
