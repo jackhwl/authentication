@@ -27,6 +27,7 @@ namespace ConfArch.Web.Areas.Identity.Pages.Account
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
@@ -99,6 +100,7 @@ namespace ConfArch.Web.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    //await _userManager.AddToRoleAsync()
                     await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("birthdate", Input.BirthDate.ToShortDateString()));
                     _logger.LogInformation("User created a new account with password.");
 
