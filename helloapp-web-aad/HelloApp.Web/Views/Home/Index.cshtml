@@ -30,9 +30,9 @@
     <script type="text/javascript">
         const config = {
             auth: {
-                clientId: '',
-                authority: '',
-                redirectUri:''
+				clientId: '0ec444fe-05f8-4344-96cd-3186c4932325',
+				authority: 'https://login.microsoftonline.com/514d5bdd-4518-4760-9408-f08191849cfa',
+				redirectUri:'https://localhost:44311'
             },
             cache: {
                 cacheLocation: "sessionStorage",
@@ -48,27 +48,26 @@
             }
 
             myMSALObj.loginPopup(loginRequest).then((loginResponse) => {
+				console.log('response => ', JSON.stringify(loginResponse))
+                //const accessTokenRequest = {
+                //    scopes: ["api://"]
+                //};
 
-                const accessTokenRequest = {
-                    scopes: ["api://"]
-                };
+                //myMSALObj.acquireTokenSilent(accessTokenRequest).then((accessTokenResponse) => {
+                //    let accesToken = accessTokenResponse.accesToken;
+                //    let apiEndPoint = "https://localhost:44326/hello";
+                //    let bearer = "Bearer " + accesToken;
 
-                myMSALObj.acquireTokenSilent(accessTokenRequest).then((accessTokenResponse) => {
-
-                    let accesToken = accessTokenResponse.accesToken;
-                    let apiEndPoint = "https://localhost:44326/hello";
-                    let bearer = "Bearer " + accesToken;
-
-                    $.ajax({
-                        url: apiEndPoint,
-                        type: "GET",
-                        beforeSend: function (xhr) {xhr.setRequestHeader('Authorization', bearer)}
-                    }).done((result) => {
-                        $('#message-success').text(result);
-                    }).fail((error) => {
-                        $('#message-error').text("Something went wrong");
-                    })
-                })
+                //    $.ajax({
+                //        url: apiEndPoint,
+                //        type: "GET",
+                //        beforeSend: function (xhr) {xhr.setRequestHeader('Authorization', bearer)}
+                //    }).done((result) => {
+                //        $('#message-success').text(result);
+                //    }).fail((error) => {
+                //        $('#message-error').text("Something went wrong");
+                //    })
+                //})
 
             }).error((err) => {
                 console.log("ERROR => ", err);
