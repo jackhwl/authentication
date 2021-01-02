@@ -48,26 +48,29 @@
             }
 
             myMSALObj.loginPopup(loginRequest).then((loginResponse) => {
-				console.log('response => ', JSON.stringify(loginResponse))
-                //const accessTokenRequest = {
-                //    scopes: ["api://"]
-                //};
+				//console.log('response => ', JSON.stringify(loginResponse))
+                const accessTokenRequest = {
+					scopes: ["api://a14ce592-08cf-4bdb-a104-f18606cb695e/.default"]
+                };
 
-                //myMSALObj.acquireTokenSilent(accessTokenRequest).then((accessTokenResponse) => {
-                //    let accesToken = accessTokenResponse.accesToken;
-                //    let apiEndPoint = "https://localhost:44326/hello";
-                //    let bearer = "Bearer " + accesToken;
+                myMSALObj.acquireTokenSilent(accessTokenRequest).then((accessTokenResponse) => {
+					console.log('accessTokenResponse=', accessTokenResponse);
+                    let accessToken = accessTokenResponse.accessToken;
+                    let apiEndPoint = "https://localhost:44326/hello";
+                    console.log('token=', accessToken);
+                    let bearer = "Bearer " + accessToken;
 
-                //    $.ajax({
-                //        url: apiEndPoint,
-                //        type: "GET",
-                //        beforeSend: function (xhr) {xhr.setRequestHeader('Authorization', bearer)}
-                //    }).done((result) => {
-                //        $('#message-success').text(result);
-                //    }).fail((error) => {
-                //        $('#message-error').text("Something went wrong");
-                //    })
-                //})
+                    $.ajax({
+                        url: apiEndPoint,
+                        type: "GET",
+                        beforeSend: function (xhr) {xhr.setRequestHeader('Authorization', bearer)}
+                    }).done((result) => {
+                        $('#message-success').text(result);
+                    }).fail((error) => {
+                        console.log(error);
+                        $('#message-error').text("Something went wrong");
+                    })
+                })
 
             }).error((err) => {
                 console.log("ERROR => ", err);

@@ -44,6 +44,15 @@ namespace HelloApp.API
                     };
                 });
 
+            services.AddCors(options =>
+			{
+                 options.AddPolicy("AllowAll", builder =>
+				 {
+                     builder.AllowAnyOrigin();
+                     builder.AllowAnyHeader();
+				 });
+			});
+
             services.AddControllers();
         }
 
@@ -54,6 +63,7 @@ namespace HelloApp.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
