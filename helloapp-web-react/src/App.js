@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {msalApp, LOGIN_SCOPES } from './auth-utils.js';
 
 class App extends React.Component {
   constructor(props){
@@ -15,6 +16,9 @@ class App extends React.Component {
 
   showMessage(){
     console.log("Show message called!");
+    msalApp.loginPopup(LOGIN_SCOPES).then((loginResponse) => {
+      console.log("Login Response = ", loginResponse);
+    })
   }
 
 
