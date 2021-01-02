@@ -1,7 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {msalApp, LOGIN_SCOPES } from './auth-utils.js';
+import {msalApp, LOGIN_SCOPES, acquireToken, fetchAPI } from './auth-utils.js';
+
+const API_ENDPOINT = "https://localhost:44326/hello";
 
 class App extends React.Component {
   constructor(props){
@@ -17,7 +19,18 @@ class App extends React.Component {
   showMessage(){
     console.log("Show message called!");
     msalApp.loginPopup(LOGIN_SCOPES).then((loginResponse) => {
-      console.log("Login Response = ", loginResponse);
+      //console.log("Login Response = ", loginResponse);
+      acquireToken().then((tokenResponse) => {
+        const apiResponse = fetchAPI(API_ENDPOINT, tokenResponse.accessToken);
+        apiResponse.then((result) => {
+          const statusCode = result.status;
+          if(statusCode == 200) {
+            this.setState({apiCalled: true, isLoggedIn: true});
+          } else {
+            this.setState({apiCalled: true, isLoggedIn: false});
+          }
+        })
+      })
     })
   }
 
